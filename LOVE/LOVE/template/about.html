@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>About page</h1>
+{% endblock content %}
+
+{% block another_content_area %}
+no changes
+
+<p>
+{{ my_text|title }} {{ my_number|time }}
+{{ list }}
+{{ html|slugify }}
+</p>
+
+<ul>
+{% for item in list %}
+{% if item == 0 %}
+1.{{item|add:100}}
+{% elif item == 'abc' %}
+2.{{ forloop.counter }}:{{item}}
+{% else %}
+3.{{ forloop.counter }}:{{item}}
+{% endif %}
+
+
+{% endfor %}
+</ul>
+
+{% endblock %}
+
+<h3>456</h3>
+
