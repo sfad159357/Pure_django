@@ -12,13 +12,13 @@ from .views import (
 )
 
 urlpatterns = [
-	path('product/', product_detail_view),
+	path('<int:pk>', product_detail_view),
     path('create/', product_create_view),
     path('create2/', product_create2_view),
     path('create3/', product_create3_view),
     path('render/', render_initial_data),
-    path('p/<int:my_id>/', dynamic_lookup_view, name='productA'),
-    path('products/<int:id>/delete/', product_delete_view, name='product_delete'),
-    path('products/list', product_list_view, name='product_list'),
+    path('<int:my_id>/', dynamic_lookup_view, name='productA'),
+    path('<int:id>/delete/', product_delete_view, name='product_delete'),
+    path('list/', product_list_view, name='product_list'),
 
 ]

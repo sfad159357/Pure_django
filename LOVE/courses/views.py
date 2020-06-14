@@ -6,17 +6,20 @@ from django.views.generic import(
 from .models import Course
 from .forms  import CourseModelForm
 # Class Base View
-#這是我們blg中用的class based view
+#這是我們blog中用的class based view
+
+# 取得指定id的物件，可用來作detail, update, delete
 class CourseObjectMixin(object):
 	model = Course
-	lookup = 'id'
+	lookup = 'pk'
 
 	def get_object(self):
-		id = self.kwargs.get(self.lookup)
-		obj =None
+		pk = self.kwargs.get(self.lookup)
+		obj = None # 設None原因應該是不要讓obj和id變成共享記憶體，不讓下一個物件影響上一個，所以只好預設None
 		if id is not None:
-			obj = get_object_or_404(self.model, id=id)
+			obj = get_object_or_404(self.model, id=pk)
 		return obj
+
 
 class CourseView(CourseObjectMixin, View):
 	template_name = 'about.html'
@@ -24,7 +27,6 @@ class CourseView(CourseObjectMixin, View):
 		context = {'object': self.get_object()}
 		return render(request, self.template_name, {}) #new_obj = CourseView()
 	
-
 # HTTP Method
 # Function Base View
 # 這是我們products用的function based view
@@ -32,9 +34,10 @@ def my_FunctionBaseView(request, *args, **kwargs):
 	print(request.method) #GET method
 	return render(request, 'about.html', {})
 
+
 class CourseDetailView(CourseObjectMixin, View):
 	template_name = 'courses/detail.html'
-	def get(self, request,id, *args, **kwargs):
+	def get(self, request, id, *args, **kwargs):
 		if not id is None:
 			obj = get_object_or_404(Course, id=id)
 		context = {
@@ -88,7 +91,7 @@ class CourseUpdateView(CourseObjectMixin, View):
 
 	def get(self, request, *args, **kwargs):
 		obj = self.get_object()
-		if obj is not None: 
+		if obj is not None:
 			form = CourseModelForm(instance=obj)
 			#丟入參數instance，進入頁面會顯示目前的物件data
 			context = {'form':form, 'object':obj}

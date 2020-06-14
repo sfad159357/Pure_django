@@ -10,8 +10,9 @@ class Article(models.Model):
 	#被要求立即返回所創造no.新的網頁物件，所以必須import reverse。
 	def get_absolute_url(self): 
    		# reverse()第一個參數：輸入之前url中的每個path所設定的name
+         # 直接切到name='article_detail'的url路徑
    		return reverse("Blog:article_detail", kwargs={
-   			"akb48": self.id,
-   			# 記住！此self.id變數要和urls中path的detail_view的標籤變數<int:akb48>一樣，
-   			# path('products/<int:akb48>/')context變數要和<int>標籤變數一樣。
+            "akb48": self.id,
+   			# 記住！此self.id變數要和urls中path的detail_view的標籤變數<int:akb48>一樣
+            # 物件的id會儲存於akb48變數當中，然後會送到urls的<int:akb48>裡頭作為參數->ArticleDetailView->article_detail.html->user
    			})
